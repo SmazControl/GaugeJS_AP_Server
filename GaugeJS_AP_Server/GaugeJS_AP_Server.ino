@@ -7,6 +7,8 @@ const byte DNS_PORT = 53;
 IPAddress apIP(192, 168, 1, 1);
 DNSServer dnsServer;
 ESP8266WebServer webServer(80);
+String message = "";
+int count = 0;
 
 String getContentType(String filename) { // convert the file extension to the MIME type
 if (filename.endsWith(".html")) return "text/html";
@@ -61,7 +63,7 @@ ux=ux+"      <div class='col s7'>";
 ux=ux+"      <div class='collection'>";
 ux=ux+"        <a href='#!' class='collection-item black'><span class='badge'>12.25 Km/L</span>1 Check</a>";
 ux=ux+"        <a href='#!' class='collection-item black'><span class='new badge'>4</span>2 Notify</a>";
-ux=ux+"        <a href='#!' class='collection-item black'>3 Play</a>";
+ux=ux+"        <a href='/count?count=1&speed=120' class='collection-item black'><span class='badge'>"+count+"</span>3 Play Count</a>";
 ux=ux+"        <a href='#!' class='collection-item black'>4 Stop</a>";
 ux=ux+"        <a href='#!' class='collection-item black'>5 Forward</a>";
 ux=ux+"        <a href='#!' class='collection-item black'>6 Reverse</a>";
@@ -81,7 +83,8 @@ ux=ux+"        <a href='#!'><i class='large material-icons'>backup</i></a>";
 ux=ux+"        <a href='#!'><i class='large material-icons'>bluetooth</i></a><br>";
 ux=ux+"      </div>";
 ux=ux+"    </div>";
-
+// Message from parameter
+ux += message;
 // Gauge part for GaugeJS Demo
 ux += "<script type='text/javascript' src='/gauge.min.js'></script>";
 ux += "<canvas id='foo' width=250 height=210></canvas>";
@@ -163,6 +166,7 @@ dnsServer.start(DNS_PORT, "www.example.com", apIP);
 
 // simple HTTP server to see that DNS server is working
 webServer.on("/", handleRoot); 
+webServer.on("/count", handleGenericArgs);
 webServer.onNotFound(handleNotFound);
 SPIFFS.begin(); 
 webServer.begin();
@@ -171,4 +175,23 @@ webServer.begin();
 void loop() {
 dnsServer.processNextRequest();
 webServer.handleClient();
+}
+
+
+void handleGenericArgs() { //Handler
+
+  message = "<div>Number of args received:";
+  message += webServer.args();            //Get number of parameters
+  message += "</div>";                            //Add a new line
+
+  for (int i = 0; i < webServer.args(); i++) {
+
+    message += "<div>Arg number#" + (String)i + " > ";   //Include the current iteration value
+    message += webServer.argName(i) + ": ";     //Get the name of the parameter
+    message += webServer.arg(i) + "</div>";              //Get the value of the parameter
+    if (webServer.argName(i) == "count") {
+      count = count + webServer.arg(i).toInt(); 
+    }
+  }
+  handleRoot();
 }
