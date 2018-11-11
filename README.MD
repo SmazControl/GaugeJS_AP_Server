@@ -16,6 +16,9 @@
 ###How to use Meterilize JS  https://materializecss.com/
 
 
+### How to use Bernii Gauge JS http://bernii.github.io/gauge.js/
+
+
 > Edit #1  Press 3 Play Count to test to send parameters
 
 
