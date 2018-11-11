@@ -13,7 +13,8 @@
 ###Instruction http://www.instructables.com/id/Using-ESP8266-SPIFFS/ 
 
 
+> Edit #1  Press 3 Play Count to test to send parameters
+
+
 <img src="https://github.com/SmazControl/GaugeJS_AP_Server/blob/master/Europe.png?raw=true">Europe.png</img>
-
-
-Edit #1  Press 3 Play Count to test to send parameters 
+ 
