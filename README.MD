@@ -13,6 +13,8 @@
 ###Instruction http://www.instructables.com/id/Using-ESP8266-SPIFFS/ 
 
 
+### Meterilize JS and Bernii Gauge JS included in this code not need to install
+
 ###How to use Meterilize JS  https://materializecss.com/
 
 
